@@ -1480,6 +1480,7 @@ public class MainActivity extends BaseActivity implements EventListener {
             }
             // 查询返回结果
             String result = HttpUtilMc.queryStringForPost(url);
+            result = Passport.jiemi(result, "248822");
             return result;
 
         }

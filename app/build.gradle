@@ -59,6 +59,8 @@ dependencies {
     compile project(":rpcapi")
     compile project(":common")
 
+    compile project(":bmobpay")
+    compile 'com.vivavideo.mobile:common-ui:3.3.17010403@aar'
     compile 'com.dynamicload.framework:framework:5.0.20161226173518'
     compile 'com.vivavideo.mobile:h5api:3.0.16122201@aar'
 //    compile 'com.vivavideo.mobile:imapi:3.0.161222'

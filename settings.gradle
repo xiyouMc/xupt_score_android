@@ -1,1 +1,1 @@
-include ':app', ':slidemenu', ':actionbarsherlock', ':cardsuilib', ':rpcapi', ':rpccore', ':common'
+include ':app', ':slidemenu', ':actionbarsherlock', ':cardsuilib', ':rpcapi', ':rpccore', ':common', ':bmobpay'

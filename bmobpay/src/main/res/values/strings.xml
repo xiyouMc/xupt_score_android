@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BmobPay</string>
+    <string name="xiaoying_str_live_alipay_pay">支付宝付款</string>
+    <string name="xiaoying_str_live_wechat_pay">微信付款</string>
+</resources>

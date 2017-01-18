@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Mark on 11/10/16 3:40 PM
+  ~ Copyright (c)  2016 Quvideo. All rights reserved.
+  ~
+  ~ Last modified 11/10/16 3:39 PM
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white">
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="#E9E9E9"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="70dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/alipay_charge"
+    >
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:src="@drawable/paybox_icon_zfb_nrm"
+                   android:id="@+id/alipay_img"
+                   android:layout_centerVertical="true"
+        />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/xiaoying_str_live_alipay_pay"
+                  android:layout_marginLeft="10dp"
+                  android:textColor="@color/black"
+                  android:textSize="18sp"
+                  android:layout_toRightOf="@id/alipay_img"
+                  android:layout_centerVertical="true"
+        />
+        <ImageView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:background="@drawable/paybox_icon_jr_nrm"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+        />
+    </RelativeLayout>
+
+    <RelativeLayout android:id="@+id/wx_charge"
+                    android:layout_width="match_parent" android:layout_height="70dp"
+                    android:layout_marginLeft="10dp"
+    >
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:src="@drawable/paybox_icon_wx_nrm"
+                   android:id="@+id/wx_img"
+                   android:layout_centerVertical="true"
+        />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/xiaoying_str_live_wechat_pay"
+                  android:layout_marginLeft="10dp"
+                  android:textColor="@color/black"
+                  android:textSize="18sp"
+                  android:layout_toRightOf="@id/wx_img"
+                  android:layout_centerVertical="true"
+        />
+        <ImageView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:background="@drawable/paybox_icon_jr_nrm"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+        />
+    </RelativeLayout>
+</LinearLayout>
