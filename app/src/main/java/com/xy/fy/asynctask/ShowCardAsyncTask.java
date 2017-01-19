@@ -4,8 +4,6 @@ import com.cardsui.ScoreCard.MyPlayCard;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
 import com.xy.fy.bmobpay.PayServiceImpl;
-import com.xy.fy.bmobpay.api.PayListener;
-import com.xy.fy.main.LoginActivity;
 import com.xy.fy.main.R;
 import com.xy.fy.main.ShowScoreActivity;
 
@@ -14,12 +12,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -30,7 +26,6 @@ import top.codemc.common.util.ProgressDialogUtil;
 import top.codemc.common.util.ScoreUtil;
 import top.codemc.common.util.StaticVarUtil;
 import top.codemc.common.util.Util;
-import top.codemc.common.util.ViewUtil;
 
 public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
 
@@ -198,7 +193,6 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
         int col;
         String[][] score;
         String xn;
-        private PayServiceImpl mPayService = new PayServiceImpl();
 
         public ScoreClass(int col, String[][] score, String xn) {
             this.col = col;
@@ -215,52 +209,17 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
             CheckPayStatusAsynctask checkPayStatusAsynctask = new CheckPayStatusAsynctask(StaticVarUtil.student.getAccount(), new ResultCallback<Boolean>() {
                 @Override
                 public void onResult(Boolean aBoolean) {
-                    if (aBoolean) {
-                        Intent i = new Intent();
-                        i.setClass(mActivity, ShowScoreActivity.class);
-                        Bundle b = new Bundle();
-                        b.putString("col", String.valueOf(col));
-                        for (int j = 0; j < score.length; j++) {
-                            b.putStringArray("score" + j, score[j]);
-                        }
-                        b.putString("xn_and_xq", xn);
-                        i.putExtras(b);
-                        mActivity.startActivity(i);
-                    } else {
-                        GetPayNumAsynctask getPayNumAsynctask = new GetPayNumAsynctask(new ResultCallback<Double>() {
-                            @Override
-                            public void onResult(Double aDouble) {
-                                mPayService.pay(mActivity, "查看平时和卷面成绩", "charge", aDouble, true, new PayListener() {
-                                    private String orderNoStr;
-
-                                    @Override
-                                    public void orderId(String orderId) {
-                                        this.orderNoStr = orderId;
-                                        Log.i("ScoreClass", "orderId:" + orderId);
-                                    }
-
-                                    @Override
-                                    public void succeed() {
-                                        Log.i("ScoreClass", "succeed");
-                                        UpdatePayPermissionAsynctask updatePayPermissionAsynctask = new UpdatePayPermissionAsynctask(StaticVarUtil.student.getAccount(), this.orderNoStr);
-                                        updatePayPermissionAsynctask.execute();
-                                    }
-
-                                    @Override
-                                    public void fail(int code, String reason) {
-
-                                    }
-
-                                    @Override
-                                    public void unKnow() {
-
-                                    }
-                                });
-                            }
-                        });
-                        getPayNumAsynctask.execute();
-
+                    Intent i = new Intent();
+                    i.setClass(mActivity, ShowScoreActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("col", String.valueOf(col));
+                    for (int j = 0; j < score.length; j++) {
+                        b.putStringArray("score" + j, score[j]);
                     }
+                    b.putString("xn_and_xq", xn);
+                    b.putBoolean("payPermission", aBoolean);
+                    i.putExtras(b);
+                    mActivity.startActivity(i);
                 }
             });
             checkPayStatusAsynctask.execute();

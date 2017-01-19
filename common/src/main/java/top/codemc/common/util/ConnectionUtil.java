@@ -106,9 +106,6 @@ public class ConnectionUtil {
         return mNetWorkType;
     }
 
-    /**
-     * �ж����������Ƿ��ѿ�
-     */
     public static boolean isConn(Context context) {
         boolean bisConnFlag = false;
         ConnectivityManager conManager = (ConnectivityManager) context
@@ -120,17 +117,13 @@ public class ConnectionUtil {
         return bisConnFlag;
     }
 
-    /**
-     * �������������
-     */
     public static void setNetworkMethod(final Context context) {
         Builder builder = new Builder(context);
-        builder.setTitle("����������ʾ").setMessage("�������Ӳ�����,�Ƿ��������?")
-                .setPositiveButton("����", new DialogInterface.OnClickListener() {
+        builder.setTitle("网络异常ʾ").setMessage("检查网络状态?")
+                .setPositiveButton("设置", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = null;
-                        // �ж��ֻ�ϵͳ�İ汾 ��API����10 ����3.0�����ϰ汾
                         if (android.os.Build.VERSION.SDK_INT > 10) {
                             intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
                         } else {
@@ -142,7 +135,7 @@ public class ConnectionUtil {
                         }
                         context.startActivity(intent);
                     }
-                }).setNegativeButton("ȡ��", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

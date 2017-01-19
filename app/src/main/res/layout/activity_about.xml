@@ -61,7 +61,7 @@
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/qrcode"/>
+                android:src="@drawable/xupt_qcode"/>
 
         <LinearLayout
                 android:layout_width="fill_parent"

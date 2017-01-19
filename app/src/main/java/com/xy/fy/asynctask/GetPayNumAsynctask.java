@@ -1,5 +1,7 @@
 package com.xy.fy.asynctask;
 
+import com.xy.fy.model.PayNumModel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,9 +16,9 @@ import top.codemc.rpcapi.HttpUtilMc;
  */
 
 public class GetPayNumAsynctask extends AsyncTask<String, String, String> {
-    private ResultCallback<Double> callback;
+    private ResultCallback<PayNumModel> callback;
 
-    public GetPayNumAsynctask(ResultCallback<Double> callback) {
+    public GetPayNumAsynctask(ResultCallback<PayNumModel> callback) {
         this.callback = callback;
     }
 
@@ -25,8 +27,14 @@ public class GetPayNumAsynctask extends AsyncTask<String, String, String> {
         super.onPostExecute(s);
         try {
             JSONObject jsonObject = new JSONObject(s);
-            String pay = jsonObject.optString("pay");
-            this.callback.onResult(Double.parseDouble(pay));
+            double pay = Double.parseDouble(jsonObject.optString("pay"));
+            double old_pay = Double.parseDouble(jsonObject.optString("old_pay"));
+            String content = jsonObject.optString("content");
+            PayNumModel payNumModel = new PayNumModel();
+            payNumModel.setPay(pay);
+            payNumModel.setContent(content);
+            payNumModel.setOld_pay(old_pay);
+            this.callback.onResult(payNumModel);
         } catch (JSONException e) {
             e.printStackTrace();
         }
