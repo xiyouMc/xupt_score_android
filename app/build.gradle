@@ -14,7 +14,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 23
-        versionName "5.0"
+        versionName "5.1"
     }
     buildTypes {
         release {
@@ -49,6 +49,21 @@ repositories {
         dirs "libs"
     }
 }
+//productFlavors {
+//    WebDownload {
+//        manifestPlaceholders = [UMENG_CHANNEL: "WebDownload", XIAOYING_APPKEY: "10014000", ZHUGE_CHANNEL: "WebDownload"]
+//    }
+//}
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+//    freeline {
+//        hack true
+//        productFlavor 'WebDownload'
+//    }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -61,8 +76,9 @@ dependencies {
 
     compile project(":bmobpay")
     compile 'com.vivavideo.mobile:common-ui:3.3.17010403@aar'
-    compile 'com.dynamicload.framework:framework:5.0.20161226173518'
+    compile 'com.dynamicload.framework:framework:5.0.20170118174834'
     compile 'com.vivavideo.mobile:h5api:3.0.16122201@aar'
+//    compile group: 'com.nineoldandroids', name: 'library', version: '2.4.0'
 //    compile 'com.vivavideo.mobile:imapi:3.0.161222'
 //    compile 'com.vivavideo.mobile:imcore:3.0.161221@aar'
 //

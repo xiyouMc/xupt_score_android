@@ -18,6 +18,11 @@ android {
     }
 }
 
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

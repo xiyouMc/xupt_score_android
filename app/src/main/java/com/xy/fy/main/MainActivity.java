@@ -176,6 +176,7 @@ public class MainActivity extends BaseActivity implements EventListener {
         super.setContentView(R.layout.activity_main);
         Util.setContext(getApplicationContext());
         FrameworkUtil.setConfig(getApplicationContext(), "xuptscore");
+        FrameworkUtil.setPackageName("com.xy.fy");
         FrameworkUtil.prepare();
         mHandler = new MyHandler(this);
         // save session

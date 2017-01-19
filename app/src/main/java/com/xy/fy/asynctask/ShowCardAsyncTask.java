@@ -3,16 +3,18 @@ package com.xy.fy.asynctask;
 import com.cardsui.ScoreCard.MyPlayCard;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
+import com.xy.fy.bmobpay.PayServiceImpl;
+import com.xy.fy.bmobpay.api.PayListener;
+import com.xy.fy.main.LoginActivity;
 import com.xy.fy.main.R;
 import com.xy.fy.main.ShowScoreActivity;
-import com.xy.fy.pay.PayServiceImpl;
-import com.xy.fy.pay.api.PayListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -20,7 +22,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,15 +30,16 @@ import top.codemc.common.util.ProgressDialogUtil;
 import top.codemc.common.util.ScoreUtil;
 import top.codemc.common.util.StaticVarUtil;
 import top.codemc.common.util.Util;
+import top.codemc.common.util.ViewUtil;
 
 public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
 
-    ArrayList<HashMap<String, Object>> listItem;// json?????????��?,?????????��??????
+    ArrayList<HashMap<String, Object>> listItem;
     private CardUI mCardView;
     private Resources resources;
     private boolean isFirst;
     private Activity mActivity;
-    private String scoreJson;// json???
+    private String scoreJson;
 
     private ProgressDialogUtil dialog;
 
@@ -62,8 +64,7 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
         String[] xn = resources.getStringArray(R.array.xn);
         boolean result = false;
         for (int i = 0; i < xn.length; i++) {
-            result = showCard(xn[i], isFirst);// ????????????????????????
-            // ??????��???(????????????????)
+            result = showCard(xn[i], isFirst);
         }
         return result;
     }
@@ -75,18 +76,13 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
         if (result) {
             mCardView.refresh();
         }
-        if (!Util.isRecordLoginMessage(mActivity)) {// ?????????????????
-            // ��???,???????????????
+        if (!Util.isRecordLoginMessage(mActivity)) {
             Util.saveDeviceInfo(mActivity);
-            // ??????????
             Util.uploadDevInfos(mActivity);
         }
         dialog.dismiss();
     }
 
-    /*
-     * ??????
-     */
     private boolean showCard(String xn, boolean isFirst) {
         String first_score = "";
         String second_score = "";
@@ -104,7 +100,7 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
         // add one card, and then add another one to the last stack.
         String xqs_str = "";
         if (!first_score.equals("")) {
-            xqs_str += "??????,";
+            xqs_str += "第一学期,";
             CardStack stackPlay = new CardStack();
             stackPlay.setTitle(xn);
             mCardView.addStack(stackPlay);
@@ -112,18 +108,18 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
                     false);
             String[][] first_score_array = getScoreToArray(first_score);
             _myPlayCard.setOnClickListener(
-                    new ScoreClass(first_score_array.length, first_score_array, xn + " ??????"));
+                    new ScoreClass(first_score_array.length, first_score_array, xn + " 第一学期"));
             mCardView.addCard(_myPlayCard);
             // mCardView.addCardToLastStack(new
             // MyCard("By Androguide & GadgetCheck"));
         }
 
         if (!second_score.equals("")) {
-            xqs_str += "??????,";
+            xqs_str += "第二学期,";
             MyPlayCard myCard = new MyPlayCard("第二学期", second_score, "#e00707", "#e00707", false, true);
             String[][] second_score_array = getScoreToArray(second_score);
             myCard.setOnClickListener(
-                    new ScoreClass(second_score_array.length, second_score_array, xn + " ??????"));
+                    new ScoreClass(second_score_array.length, second_score_array, xn + " 第二学期"));
             mCardView.addCardToLastStack(myCard);
         }
         if (xqs_str.length() != 0) {
@@ -135,40 +131,35 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
 
     }
 
-    /*
-     * ???? ????????? ?????????
-     */
     private StringBuilder getScore(String xn, String xq) {
         StringBuilder result = null;
         if (listItem != null) {
             result = new StringBuilder();
-            // ????json
             JSONObject jsonObject;
             try {
                 jsonObject = new JSONObject(scoreJson);
                 JSONArray jsonArray = (JSONArray) jsonObject.get("liScoreModels");// ???
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject o = (JSONObject) jsonArray.get(i);
-                    if (o.get("xn").equals(xn)) {// ??????
+                    if (o.get("xn").equals(xn)) {
                         JSONArray jsonArray2 = (JSONArray) o.get("list_xueKeScore");
                         for (int j = 0; j < jsonArray2.length(); j++) {
                             JSONObject jsonObject2 = (JSONObject) jsonArray2.get(j);
                             if (jsonObject2.get("xq").equals(xq)) {
-                                // ??? ?��????->?��???
                                 StaticVarUtil.kcdmList.put(
                                         jsonObject2.get("kcmc") == null ? " " : jsonObject2.get("kcmc").toString(),
                                         jsonObject2.get("kcdm").toString() + "|" + xn + "|" + xq);
                                 result.append(
-                                        jsonObject2.get("kcmc") == null ? " " : jsonObject2.get("kcmc").toString());// ?��????
+                                        jsonObject2.get("kcmc") == null ? " " : jsonObject2.get("kcmc").toString());
                                 result.append("--"
-                                        + jsonObject2.get("cj")// ??????
+                                        + jsonObject2.get("cj")
                                         .toString()
                                         + (jsonObject2.get("bkcj").equals(" ") ? " "
-                                        : ("(" + jsonObject2.get("bkcj").toString() + ")"))// ????????????????????????
+                                        : ("(" + jsonObject2.get("bkcj").toString() + ")"))
                                 );
-                                result.append(jsonObject2.get("pscj")// ?????
+                                result.append(jsonObject2.get("pscj")
                                         .equals("") ? "/" : "--" + jsonObject2.get("pscj").toString());
-                                result.append(jsonObject2.get("qmcj")// ??????
+                                result.append(jsonObject2.get("qmcj")
                                         .equals("") ? "/" : "--" + jsonObject2.get("qmcj").toString());
                                 result.append("\n");
                             }
@@ -185,7 +176,6 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
     }
 
     /*
-     * ?? ??????? n??4?��????�???????????table?????
      *
      * @param score
      *
@@ -193,7 +183,7 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
      */
     private String[][] getScoreToArray(String score) {
         String[] s = score.split("\n");
-        String[][] result = new String[s.length][4];// n?? 4?��?????
+        String[][] result = new String[s.length][4];
         for (int i = 0; i < result.length; i++) {
             result[i] = s[i].split("--");
         }
@@ -201,13 +191,12 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
     }
 
     /*
-     * ?????????
      *
      * @author Administrator 2014-7-23
      */
     class ScoreClass implements OnClickListener {
-        int col;// ????????��?
-        String[][] score;// ?????��?????????????
+        int col;
+        String[][] score;
         String xn;
         private PayServiceImpl mPayService = new PayServiceImpl();
 
@@ -237,28 +226,40 @@ public class ShowCardAsyncTask extends AsyncTask<String, String, Boolean> {
                         b.putString("xn_and_xq", xn);
                         i.putExtras(b);
                         mActivity.startActivity(i);
-                    }else{
-                        mPayService.pay("购买高级版查询功能", "charge", 0.02, true, new PayListener() {
+                    } else {
+                        GetPayNumAsynctask getPayNumAsynctask = new GetPayNumAsynctask(new ResultCallback<Double>() {
                             @Override
-                            public void orderId(String orderId) {
-                                Log.i("ScoreClass","orderId:" + orderId);
-                            }
+                            public void onResult(Double aDouble) {
+                                mPayService.pay(mActivity, "查看平时和卷面成绩", "charge", aDouble, true, new PayListener() {
+                                    private String orderNoStr;
 
-                            @Override
-                            public void succeed() {
+                                    @Override
+                                    public void orderId(String orderId) {
+                                        this.orderNoStr = orderId;
+                                        Log.i("ScoreClass", "orderId:" + orderId);
+                                    }
 
-                            }
+                                    @Override
+                                    public void succeed() {
+                                        Log.i("ScoreClass", "succeed");
+                                        UpdatePayPermissionAsynctask updatePayPermissionAsynctask = new UpdatePayPermissionAsynctask(StaticVarUtil.student.getAccount(), this.orderNoStr);
+                                        updatePayPermissionAsynctask.execute();
+                                    }
 
-                            @Override
-                            public void fail(int code, String reason) {
+                                    @Override
+                                    public void fail(int code, String reason) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void unKnow() {
+                                    @Override
+                                    public void unKnow() {
 
+                                    }
+                                });
                             }
                         });
+                        getPayNumAsynctask.execute();
+
                     }
                 }
             });

@@ -34,6 +34,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import top.codemc.common.util.ConnectionUtil;
 import top.codemc.common.util.H5Log;
@@ -45,7 +46,7 @@ import top.codemc.rpcapi.HttpUtilMc;
 
 public class WelcomeActivity extends Activity {
 
-    private LinearLayout welcome;
+    private RelativeLayout welcome;
 
     @SuppressLint("NewApi")
     @Override
@@ -102,7 +103,7 @@ public class WelcomeActivity extends Activity {
         final View view = View.inflate(this, R.layout.activity_welcome, null);
 
         setContentView(view);
-        welcome = (LinearLayout) findViewById(R.id.welcome);
+        welcome = (RelativeLayout) findViewById(R.id.welcome);
         AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);
         aa.setDuration(2000);
         view.startAnimation(aa);

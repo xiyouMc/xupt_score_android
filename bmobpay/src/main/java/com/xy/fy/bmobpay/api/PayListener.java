@@ -1,4 +1,4 @@
-package com.xy.fy.pay.api;
+package com.xy.fy.bmobpay.api;
 
 /**
  * Description:

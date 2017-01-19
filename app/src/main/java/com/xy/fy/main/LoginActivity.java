@@ -1,29 +1,14 @@
 package com.xy.fy.main;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import com.xy.fy.asynctask.GetPicAsynctask;
+import com.xy.fy.asynctask.LoginAsynctask;
+import com.xy.fy.view.CircleImageView;
+import com.xy.fy.view.H5Toast;
+import com.xy.fy.view.PullDoorView;
+import com.xy.fy.view.ToolClass;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import top.codemc.common.util.BitmapUtil;
-import top.codemc.common.util.ConnectionUtil;
-import top.codemc.common.util.StaticVarUtil;
-import top.codemc.common.util.ViewUtil;
-import top.codemc.common.util.db.DBConnection;
-import top.codemc.common.util.db.DBConnection.UserSchema;
-import com.xy.fy.view.CircleImageView;
-import com.xy.fy.view.H5Toast;
-import top.codemc.common.util.SystemBarTintManager;
-import top.codemc.common.util.Util;
-import top.codemc.rpcapi.HttpUtilMc;
-
-import com.xy.fy.asynctask.GetPicAsynctask;
-import com.xy.fy.asynctask.LoginAsynctask;
-import com.xy.fy.view.PullDoorView;
-import com.xy.fy.view.ToolClass;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -61,6 +46,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
+import top.codemc.common.util.BitmapUtil;
+import top.codemc.common.util.ConnectionUtil;
+import top.codemc.common.util.StaticVarUtil;
+import top.codemc.common.util.SystemBarTintManager;
+import top.codemc.common.util.Util;
+import top.codemc.common.util.ViewUtil;
+import top.codemc.common.util.db.DBConnection;
+import top.codemc.common.util.db.DBConnection.UserSchema;
+import top.codemc.rpcapi.HttpUtilMc;
 
 public class LoginActivity extends Activity {
 
@@ -121,7 +121,7 @@ public class LoginActivity extends Activity {
         this.login.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(account.getText().toString().isEmpty() || password.getText().toString().isEmpty()){
+                if (account.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
                     H5Toast.showToast(getApplicationContext(), "请输入账号或密码");
                     return;
                 }
@@ -132,11 +132,11 @@ public class LoginActivity extends Activity {
 
                 SharedPreferences preferences = getSharedPreferences(StaticVarUtil.USER_INFO, MODE_PRIVATE);
                 String session = preferences.getString(StaticVarUtil.SESSION, "");
-                if (session != null && !session.isEmpty()) {
-                    autoLogin();
-                } else {
-                    login();
-                }
+//                if (session != null && !session.isEmpty()) {
+//                    autoLogin();
+//                } else {
+                login();
+//                }
                 // H5Toast.showToast(getApplicationContext(), "网络不稳定，请稍后。");
                 // Intent intent = new Intent();
                 // intent.setClass(LoginActivity.this, MainActivity.class);
@@ -454,7 +454,7 @@ public class LoginActivity extends Activity {
                 return false;
             }
         });
-        String[] USERSFROM = { UserSchema.ID, UserSchema.USERNAME, UserSchema.PASSWORD, };
+        String[] USERSFROM = {UserSchema.ID, UserSchema.USERNAME, UserSchema.PASSWORD,};
         Cursor c = sqLiteDatabase.query(UserSchema.TABLE_NAME, USERSFROM, null, null, null, null, null);
         HashSet<String> set = new HashSet<String>();
         while (c.moveToNext()) {

@@ -34,8 +34,14 @@ repositories {
         dirs "libs"
     }
 }
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     provided 'com.dynamicload.framework:framework:5.0.20161226173518'
     provided 'com.vivavideo.mobile:common-ui:3.3.17010403@aar'
+    provided project(':common')
 }

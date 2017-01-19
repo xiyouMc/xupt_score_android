@@ -87,7 +87,8 @@
                     android:background="@drawable/menu_list"
                     android:clickable="true"
                     android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                 <ImageView
                         android:layout_width="35dip"
@@ -106,7 +107,8 @@
                             android:paddingLeft="15dp"
                             android:text="@string/friend_make_up"
                             android:textColor="@drawable/change_menu_text_color"
-                            android:textSize="18dp"/>
+                            android:textSize="18dp" android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
 
                     <ImageView
                             android:id="@+id/iv_bukao_tips"
@@ -174,7 +176,8 @@
                     android:background="@drawable/menu_list"
                     android:clickable="true"
                     android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                 <ImageView
                         android:layout_width="35dip"
@@ -189,7 +192,7 @@
                         android:paddingLeft="15dp"
                         android:text="@string/my_rank"
                         android:textColor="@drawable/change_menu_text_color"
-                        android:textSize="18dp"/>
+                        android:textSize="18dp" android:id="@+id/textView"/>
 
                 <ImageView
                         android:layout_width="40dip"

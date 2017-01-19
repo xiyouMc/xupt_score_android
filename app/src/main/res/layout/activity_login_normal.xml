@@ -59,6 +59,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/student_id"
                         android:paddingLeft="17dp"
+                        android:textColorHint="#050505"
                         android:textColor="#050505"
                         android:textCursorDrawable="@null"
                         android:textSize="8pt"/>
@@ -80,6 +81,7 @@
                         android:ems="14"
                         android:gravity="center_vertical"
                         android:hint="@string/login_pwd"
+                        android:textColorHint="#050505"
                         android:inputType="textPassword"
                         android:paddingLeft="17dp"
                         android:textColor="#050505"
